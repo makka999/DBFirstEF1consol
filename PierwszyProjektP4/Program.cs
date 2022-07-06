@@ -6,8 +6,6 @@ using PierwszyProjektP4.Models;
 Console.WriteLine("Wszystko wyświatla się dobrze po zwiększniu termminala");
 
 var context = new KolekcjaPlytContext();
-DisplayAll DisplayAll = new DisplayAll();
-LookFor LookFor = new LookFor();
 FunctionWypozyczajacy FunctionWypozyczajacy = new FunctionWypozyczajacy();
 
 Menu:
