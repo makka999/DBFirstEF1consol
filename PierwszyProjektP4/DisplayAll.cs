@@ -11,7 +11,6 @@ namespace PierwszyProjektP4
 {
     internal class DisplayAll
     {
-
         public void WypozyczajacyDis(KolekcjaPlytContext context)
         {
 
