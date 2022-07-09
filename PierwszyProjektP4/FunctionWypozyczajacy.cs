@@ -123,7 +123,7 @@ namespace PierwszyProjektP4
                 Console.WriteLine("Niepoprawny numer");
                 goto checkNumer;
             }
-            if (checkNumber > 999999999 || checkNumber <= 99999999)
+            if (!(RegexNumberCheck(nrTelAdd)))
             {
                 Console.WriteLine("Niepoprawny numer");
                 goto checkNumer;
@@ -206,13 +206,200 @@ namespace PierwszyProjektP4
             {
                 context.Wypozyczajacies.Add(wypozyczajacyInsert);
                 context.SaveChanges();
+                Console.WriteLine("\nDodano nowego wypozyczajacego\n");
+            }
+            else
+            {
+                Console.WriteLine("\nNie dodano\n");
+                return;
+            }
+
+        }
+
+        public static void ChangeWypozyczajacy(KolekcjaPlytContext context)
+        {
+     
+            Console.WriteLine("\nPodaj ID wypozyczajacego do modyfikacji");
+            Console.Write("\nPodaj (int)ID:");
+            var IDRead = Console.ReadLine();
+            var MakeSure = context.Wypozyczajacies.Where(w => w.IdWypozyczajacy.ToString() == IDRead).ToList();
+            var table = new ConsoleTable("Id", "Imie i Nazwisko", "NrTel", "Email", "Addres");
+            foreach(var item in MakeSure)
+            {
+
+                table.AddRow(item.IdWypozyczajacy, item.Imie + " " + item.Nazwisko, item.NrTelefonu, item.Email,
+                   item.Miasto + " " + item.KodPocztowy + " " + item.Ulica + " " + item.NumerMieszkania);
+
+            }
+            table.Write();
+            Console.WriteLine("\nCzy chcesz modyfikowac tego wypozyczajacego\n");
+            Console.WriteLine("T - tak");
+            var input = Console.ReadLine();
+            if (input == "t" || input == "T")
+            {
+            Menu:
+                var wypozyczajacyMod = new Wypozyczajacy()
+                {
+                    IdWypozyczajacy = MakeSure[0].IdWypozyczajacy,
+                    Imie = MakeSure[0].Imie,
+                    Nazwisko = MakeSure[0].Nazwisko,
+                    NrTelefonu = MakeSure[0].NrTelefonu,
+                    Email = MakeSure[0].Email,
+                    KodPocztowy = MakeSure[0].KodPocztowy,
+                    Miasto = MakeSure[0].Miasto,
+                    Ulica = MakeSure[0].Ulica,
+                    NumerMieszkania = MakeSure[0].NumerMieszkania
+                };
+                Console.Clear();
+                Console.WriteLine("_-@@@@@@@@@@@@@@@@@-MENU_MOD-@@@@@@@@@@@@@@@@@-_");
+                Console.WriteLine("1) Zmien imie");
+                Console.WriteLine("2) Zmien nazwisko");
+                Console.WriteLine("3) Zmien numer telefonu");
+                Console.WriteLine("4) Zmien email");
+                Console.WriteLine("5) Zmien kod pocztowy");
+                Console.WriteLine("6) Zmien miasto");
+                Console.WriteLine("7) Zmien ulica");
+                Console.WriteLine("8) Zmien numer mieszkania");
+                Console.WriteLine("9) Dokonaj zmian");
+
+                Console.WriteLine("\nWygląd zmodyfikowanego wypozyczajacego\n");
+                var tableMod = new ConsoleTable("Id", "Imie i Nazwisko", "NrTel", "Email", "Addres");
+                tableMod.AddRow(wypozyczajacyMod.IdWypozyczajacy, wypozyczajacyMod.Imie + " " + wypozyczajacyMod.Nazwisko, wypozyczajacyMod.NrTelefonu, wypozyczajacyMod.Email,
+                       wypozyczajacyMod.Miasto + " " + wypozyczajacyMod.KodPocztowy + " " + wypozyczajacyMod.Ulica + " " + wypozyczajacyMod.NumerMieszkania);
+                tableMod.Write();
+
+                Console.Write("\nPodaj numer z menu: ");
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        Console.Clear();
+                        imieMod:
+                        Console.Write("Podaj nowe imie: ");
+                        string imieMod = Console.ReadLine();
+                        if (imieMod == null || imieMod == String.Empty)
+                        {
+                            Console.WriteLine("Musisz podać imie");
+                            goto imieMod;
+                        }
+                        MakeSure[0].Imie = imieMod;
+                        goto Menu;
+                    case "2":
+                        Console.Clear();
+                        nazwiskoMod:
+                        Console.Write("Podaj nowe nazwisko: ");
+                        string nazwiskoMod = Console.ReadLine();
+                        if (nazwiskoMod == null || nazwiskoMod == String.Empty)
+                        {
+                            Console.WriteLine("Musisz podać nazwisko");
+                            goto nazwiskoMod;
+                        }
+                        MakeSure[0].Nazwisko = nazwiskoMod;
+                        goto Menu;
+                    case "3":
+                        Console.Clear();
+                        numerMod:
+                        Console.Write("Podaj nowy numer telefonu: ");
+                        string nrTelMod = Console.ReadLine();
+                        if (nrTelMod == null || nrTelMod == String.Empty)
+                        {
+                            nrTelMod = null;
+                            goto Menu;
+                        }
+                        if (!(RegexNumberCheck(nrTelMod)))
+                        {
+                            Console.WriteLine("Niepoprawny numer");
+                            goto numerMod;
+                        }
+                        MakeSure[0].NrTelefonu = nrTelMod;
+                        goto Menu;
+                    case "4":
+                        Console.Clear();
+                        emailMod:
+                        Console.Write("Podaj nowy e-mail: ");
+                        string eMailMod = Console.ReadLine();
+                        if (eMailMod == null || eMailMod == String.Empty)
+                        {
+                            eMailMod = null;
+                        }
+                        if (!(RegexEmailCheck(eMailMod)))
+                        {
+                            Console.WriteLine("Podano nieprawidlowy adres email");
+                            goto emailMod;
+                        }
+                        MakeSure[0].Email = eMailMod;
+                        goto Menu;
+                    case "5":
+                        Console.Clear();
+                        kodPocztowyMod:
+                        Console.Write("Podaj nowy kod pocztowy:");
+                        string kodPocztowyMod = Console.ReadLine();
+                        if (!(RegexCodelCheck(kodPocztowyMod)))
+                        {
+                            Console.WriteLine("Podano nieprawidłowy kod pocztowy");
+                            goto kodPocztowyMod;
+                        }
+                        if (kodPocztowyMod == null || kodPocztowyMod == String.Empty)
+                        {
+                            kodPocztowyMod = null;
+                        }
+                        MakeSure[0].KodPocztowy = kodPocztowyMod;
+                        goto Menu;
+                    case "6":
+                        Console.Clear();
+                        Console.Write("Podaj nowe miasto: ");
+                        string miastoMod = Console.ReadLine();
+                        if (miastoMod == null || miastoMod == String.Empty)
+                        {
+                            miastoMod = null;
+                        }
+                        MakeSure[0].Miasto = miastoMod;
+                        goto Menu;
+                    case "7":
+                        Console.Clear();
+                        Console.Write("Podaj nowa ulice: ");
+                        string ulicaMod = Console.ReadLine();
+                        if (ulicaMod == null || ulicaMod == String.Empty)
+                        {
+                            ulicaMod = null;
+                        }
+                        MakeSure[0].Ulica = ulicaMod;
+                        goto Menu;
+                    case "8":
+                        Console.Clear();
+                        numerDomMod:
+                        Console.Write("Podaj nowy numer mieszkania: ");
+                        string numerMieszkaniaMod = Console.ReadLine();
+                        if (numerMieszkaniaMod == null || numerMieszkaniaMod == String.Empty)
+                        {
+                            numerMieszkaniaMod = null;
+                            goto skipCheckHomeNMod;
+                        }
+                        if (!(int.TryParse(numerMieszkaniaMod, out int num)))
+                        {
+                            Console.WriteLine("Niepoprawny numer");
+                            goto numerDomMod;
+                        }
+                        skipCheckHomeNMod:
+                        MakeSure[0].NumerMieszkania = numerMieszkaniaMod;
+                        goto Menu;
+                    case "9":
+                        Console.Clear();
+                        goto EndMod;
+                    default:
+                        break;
+                }
+            EndMod:
+
+                context.Entry(wypozyczajacyMod).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.SaveChanges();
+
             }
             else
             {
                 return;
             }
-
         }
+
         public static bool RegexEmailCheck(string input) //https://www.abstractapi.com/guides/validate-emails-in-c
         {
             if (input == null || input == String.Empty)
@@ -224,7 +411,6 @@ namespace PierwszyProjektP4
                 return Regex.IsMatch(input, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
             }
         }
-
         public static bool RegexCodelCheck(string input)  
         {
             if (input == null || input == String.Empty)
@@ -236,6 +422,18 @@ namespace PierwszyProjektP4
                 return Regex.IsMatch(input, @"[0-9]{2}-[0-9]{3}"); //https://regex101.com/
             }
             
+        }
+        public static bool RegexNumberCheck(string input)
+        {
+            if (input == null || input == String.Empty)
+            {
+                return true;
+            }
+            else
+            {
+                return Regex.IsMatch(input, @"[0-9]{9}"); 
+            }
+
         }
     }
 }

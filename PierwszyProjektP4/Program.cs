@@ -16,6 +16,7 @@ Console.WriteLine("1) Wyswielt wszystkich wypozyczakacych");
 Console.WriteLine("2) Znajdz wypozyczajacego po ID");
 Console.WriteLine("3) Znajdz wypozyczajacego po imieniu i nazwisku");
 Console.WriteLine("4) Dodaj wypozyczajacego");
+Console.WriteLine("5) Modyfikuj wypozyczajacego");
 Console.Write("\nPodaj numer z menu: ");
 
 switch (Console.ReadLine())
@@ -28,6 +29,7 @@ switch (Console.ReadLine())
         goto Menu;
     case "2":
         Console.Clear();
+        Console.WriteLine("Aby wyjsc wpisz: exit");
         FunctionWypozyczajacy.LookForId(context);
         Console.WriteLine("Nacisnij klawisz aby wrocic do Menu");
         Console.ReadKey();
@@ -41,6 +43,12 @@ switch (Console.ReadLine())
     case "4":
         Console.Clear();
         FunctionWypozyczajacy.AddWypozyczajacy(context);
+        Console.WriteLine("Nacisnij klawisz aby wrocic do Menu");
+        Console.ReadKey();
+        goto Menu;
+    case "5":
+        Console.Clear();
+        FunctionWypozyczajacy.ChangeWypozyczajacy(context);
         Console.WriteLine("Nacisnij klawisz aby wrocic do Menu");
         Console.ReadKey();
         goto Menu;
