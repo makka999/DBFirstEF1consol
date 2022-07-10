@@ -261,6 +261,8 @@ namespace PierwszyProjektP4
                 Console.WriteLine("7) Zmien ulica");
                 Console.WriteLine("8) Zmien numer mieszkania");
                 Console.WriteLine("9) Dokonaj zmian");
+                Console.WriteLine("exit) Anuluj");
+
 
                 Console.WriteLine("\nWygląd zmodyfikowanego wypozyczajacego\n");
                 var tableMod = new ConsoleTable("Id", "Imie i Nazwisko", "NrTel", "Email", "Addres");
@@ -384,14 +386,38 @@ namespace PierwszyProjektP4
                         goto Menu;
                     case "9":
                         Console.Clear();
-                        goto EndMod;
+                        using (var update = new KolekcjaPlytContext())
+                        {
+                            var resultUpdate = update.Wypozyczajacies.SingleOrDefault(w => w.IdWypozyczajacy == wypozyczajacyMod.IdWypozyczajacy);
+                            //update.Wypozyczajacies.Attach(wypozyczajacyUpdate);
+                            //update.Entry(wypozyczajacyUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            resultUpdate.Imie = wypozyczajacyMod.Imie;
+                            resultUpdate.Nazwisko = wypozyczajacyMod.Nazwisko;
+                            resultUpdate.NrTelefonu = wypozyczajacyMod.NrTelefonu;
+                            resultUpdate.Email = wypozyczajacyMod.Email;
+                            resultUpdate.KodPocztowy = wypozyczajacyMod.KodPocztowy;
+                            resultUpdate.Miasto = wypozyczajacyMod.Miasto;
+                            resultUpdate.Ulica = wypozyczajacyMod.Ulica;
+                            resultUpdate.NumerMieszkania = wypozyczajacyMod.NumerMieszkania;
+                            update.SaveChanges();
+                        }
+
+                        Console.WriteLine("\nZmiany zostaly wprowadzone do bazy danych\n");
+                        break;
+                    case "exit":
+                        Console.WriteLine("\nAnulowano\n");
+                        return;
                     default:
                         break;
                 }
-            EndMod:
 
-                context.Entry(wypozyczajacyMod).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
+
+                
+                
+
+                //Wypozyczajacy resultUpdate = context.Wypozyczajacies.SingleOrDefault(w => w.IdWypozyczajacy == wypozyczajacyMod.IdWypozyczajacy);
+                //context.Entry(wypozyczajacyUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //context.SaveChanges();
 
             }
             else
