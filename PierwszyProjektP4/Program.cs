@@ -7,6 +7,7 @@ Console.WriteLine("Wszystko wyświatla się dobrze po zwiększniu termminala");
 
 var context = new KolekcjaPlytContext();
 FunctionWypozyczajacy FunctionWypozyczajacy = new FunctionWypozyczajacy();
+Wypozyczenia Wypozyczenia = new Wypozyczenia();
 
 Menu:
 
@@ -17,6 +18,7 @@ Console.WriteLine("2) Znajdz wypozyczajacego po ID");
 Console.WriteLine("3) Znajdz wypozyczajacego po imieniu i nazwisku");
 Console.WriteLine("4) Dodaj wypozyczajacego");
 Console.WriteLine("5) Modyfikuj wypozyczajacego");
+Console.WriteLine("6) test");
 Console.Write("\nPodaj numer z menu: ");
 
 switch (Console.ReadLine())
@@ -49,6 +51,12 @@ switch (Console.ReadLine())
     case "5":
         Console.Clear();
         FunctionWypozyczajacy.ChangeWypozyczajacy(context);
+        Console.WriteLine("Nacisnij klawisz aby wrocic do Menu");
+        Console.ReadKey();
+        goto Menu;
+    case "6":
+        Console.Clear();
+        Wypozyczenia.DysplayAll(context);
         Console.WriteLine("Nacisnij klawisz aby wrocic do Menu");
         Console.ReadKey();
         goto Menu;

@@ -1131,3 +1131,32 @@ INSERT INTO Utwor(
            'rock, ska',
            6,
            5);
+
+--- wypozyczenia
+
+INSERT INTO [dbo].[Wypozyczenie]
+           ([DataWypozyczenia]
+           ,[IdPlyta]
+           ,[IdWypozyczajacy])
+     VALUES
+           (GETDATE(),
+           5,
+           2);
+
+INSERT INTO [dbo].[Wypozyczenie]
+           ([DataWypozyczenia]
+           ,[IdPlyta]
+           ,[IdWypozyczajacy])
+     VALUES
+           (GETDATE(),
+           1,
+           1);
+
+INSERT INTO [dbo].[Wypozyczenie]
+           ([DataWypozyczenia]
+           ,[IdPlyta]
+           ,[IdWypozyczajacy])
+     VALUES
+           (GETDATE(),
+           3,
+           4);
