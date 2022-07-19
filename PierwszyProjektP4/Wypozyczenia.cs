@@ -14,7 +14,7 @@ namespace PierwszyProjektP4
         public void DysplayAll(KolekcjaPlytContext context)
         {
             Console.WriteLine("Wyświetlam całą zawartość Wypozyczających");
-            var table = new ConsoleTable("Id", "Data Wypozyczenia", "Data Oddania", "Plyta", "Wypozycząjacy");
+            var table = new ConsoleTable("Id", "Data Wypozyczenia", "Data Oddania", "Plyta", "Wypozycząjacy","Status plyty");
             using(var db = new KolekcjaPlytContext())
             {
              var wypozyczenieFull = (from Wpp in db.Wypozyczenies
@@ -27,14 +27,14 @@ namespace PierwszyProjektP4
                                          DataO = Wpp.DataOddania,
                                          Plyta = Ply.Nazwa,
                                          ImieW = Wyp.Imie,
-                                         NazwW = Wyp.Nazwisko
-
+                                         NazwW = Wyp.Nazwisko,
+                                         PlyStat = Ply.StatusPosiadania
                                      }).ToList();
 
                 foreach (var item in wypozyczenieFull)
                 {
 
-                    table.AddRow(item.Id,item.DataW,item.DataO,item.Plyta,item.ImieW + "" + item.NazwW);
+                    table.AddRow(item.Id,item.DataW,item.DataO,item.Plyta,item.ImieW + "" + item.NazwW, item.PlyStat);
 
                 }
                 table.Write();
